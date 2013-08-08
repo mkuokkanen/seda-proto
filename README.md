@@ -5,17 +5,23 @@ Simple application prototype to store key-value pairs.
 Build with staged event-driven architecture (SEDA) principles.
 It combines few technologies I have researched recently, purpose is to help me remember later on what I have learned.
 
-Few principles:
-* Client must work in web browser for universal access. Java clients etc are so old school.
-* Communication between client and server must happen asynchronously in efficient manner. 
-Request/response is so old school. 
-* Server must handle operations efficiently as events that flow through system in strongly serialized fashion.
-Web services that scale in servlet level and serialize in relational database transactions are so old school.
-* Minimize Garbage Collection.
-* Documentation at level that is relevant to me.
-* Easy runnability, so that I can return to this later and still understand how to make this work.
-* Some automated tests (unit, performance) would be nice.
-* Switchable technologies to compare performance would be nice, but probably too hard in this scope.
+Key features:
+* Client-Server architechture, multiple clients and one (logical) server
+* Client must work in web browser for universal access
+ * Java clients etc binary blobs are so old school 
+* Communication between client and server must happen asynchronously and efficiently, with data flowing in both directions
+ * Request/response is so old school
+* Server must handle operations (events) in strongly serialized way.
+ * Traditional web services that scale at the servlet level and serialize in db transactions are so old school
+* Build for performance
+ * As serialization requirement forbids horizontal parallelisation, target vertical parallel processing, aka SEDA
+ * Try to minimize Garbage Collection
+* Build for fail safety (High Availability)
+ * Probably out of scope for this little demo
+* Documentation at level that is relevant to me
+* Easy runnability, so that I can return to this later and still understand how to make this work
+* Some automated tests (unit, performance) would be nice
+* Switchable technologies to compare performance would be nice, but probably too hard in this scope
 
 All still work in progress.
 
