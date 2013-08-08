@@ -1,0 +1,28 @@
+###
+# generic files to ignore
+#
+
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
+
+
+###
+# Java related files to ignore
+#
+
+# compiled stuff
+*.class
+*.jar
+*.war
+*.ear
+
+# eclipse specific
+.classpath
+.project
+.settings/
+
+# maven specific
+target/
