@@ -37,6 +37,7 @@ public class KeyStoreManager {
      * @return success in operation
      */
     public boolean push(String key, String value) {
+        logger.info("Push {}:{}", key, value);
 
         if (store.size() >= MAX_SIZE) {
             logger.warn("KeyStore already has {} items and limit is {}, ignoring push.",
@@ -52,6 +53,9 @@ public class KeyStoreManager {
         } else {
             logger.debug("Store push, op:update, key:{}, value:{}", key, value);
         }
+
+        broadcast();
+
         return true;
     }
 

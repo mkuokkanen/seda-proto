@@ -29,7 +29,7 @@ public class OpInEventHandler implements EventHandler<Message> {
     public void onEvent(Message event, long sequence, boolean endOfBatch) throws Exception {
 
         MessageType type = (MessageType) event.type.get();
-        logger.debug("Handling event type {} (seq {}).", type, sequence);
+        logger.info("Handling event type {} (seq {}).", type, sequence);
 
         switch (type) {
         case IN_PUSH:

@@ -49,10 +49,7 @@ $("#btn-connect").click(function() {
 
 	ws.onmessage = function(evt) {
 		var received_msg = evt.data;
-
-		alert("got data:  " + received_msg);
 		parseJsonToTable(received_msg);
-
 	};
 
 	ws.onclose = function() {
@@ -68,7 +65,6 @@ $("#btn-push").click(function() {
 	};
 
 	var strMsg = JSON.stringify(msg);
-	alert(strMsg);
 	ws.send(strMsg);
 });
 
@@ -79,6 +75,5 @@ $("#btn-delete").click(function() {
 	};
 
 	var strMsg = JSON.stringify(msg);
-	alert(strMsg);
 	ws.send(strMsg);
 });

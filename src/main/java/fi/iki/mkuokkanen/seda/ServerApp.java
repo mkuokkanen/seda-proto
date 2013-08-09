@@ -3,6 +3,8 @@ package fi.iki.mkuokkanen.seda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fi.iki.mkuokkanen.seda.api.ApiToDisruptor;
+import fi.iki.mkuokkanen.seda.api.websocket.JettyWebsocketServer;
 import fi.iki.mkuokkanen.seda.keyStore.KeyStoreManager;
 import fi.iki.mkuokkanen.seda.keyStore.OutEventGenerator;
 import fi.iki.mkuokkanen.seda.queue.DisruptorIn;
@@ -37,21 +39,24 @@ public class ServerApp {
         in = new DisruptorIn(keyStore);
     }
 
-    // public void startApi() {
-    // JettyWebsocketServer s = new JettyWebsocketServer();
-    // try {
-    // s.setup();
-    // } catch (Exception e) {
-    // logger.error("Error happened while starting jetty.", e);
-    // }
-    // }
+    public void startApi() {
+        JettyWebsocketServer s = new JettyWebsocketServer();
+        try {
+            s.setup();
+        } catch (Exception e) {
+            logger.error("Error happened while starting jetty.", e);
+        }
+    }
 
     public static void main(String[] args) {
         logger.info("Starting application");
 
         ServerApp app = new ServerApp();
         app.startEngines();
-        // app.startApi();
+
+        ApiToDisruptor.instance.setRingbuffer(app.in.getRingBuffer());
+
+        app.startApi();
 
         logger.info("Finished starting");
     }
