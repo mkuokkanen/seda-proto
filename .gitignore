@@ -23,6 +23,7 @@
 .classpath
 .project
 .settings/
+bin/
 
 # maven specific
 target/
