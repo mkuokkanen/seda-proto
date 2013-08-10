@@ -5,7 +5,7 @@ Simple application prototype to store key-value pairs.
 Build with staged event-driven architecture (SEDA) principles.
 It combines few technologies I have researched recently, purpose is to help me remember later on what I have learned.
 
-Key features:
+Key requirements:
 * Client-Server architechture, multiple clients and one (logical) server
 * Client must work in web browser for universal access
  * Java clients etc binary blobs are so old school 
@@ -33,7 +33,7 @@ Specifics
 * HTML5 with JavaScript
  * Served as static pages, no need for dynamic page creation
  * Google Dart would be interesting, but JavaScript provides enough challenge
- * JQuery might make some parts easier
+ * JQuery to make things little easier
 * Twitter Bootstrap 2.3.x for UI elements
  * Bootstrap 3 RC1 is available right now, might upgrade to it later
 * WebSockets for sending and receiving data
@@ -48,14 +48,18 @@ Specifics
 * Disruptor 3 for implementing SEDA (queues, stages)
  * Alternative might be multiple java.util.concurrent.ArrayBlockingQueue objects with self-managed threads.
 * JSON for moving data between client and server
- * Multiple json libraries available, still sorting this out
+ * json-simple for handling json
 * Javolution for storing data
  * Minimize GC by preallocating needed ByteBuffers.
  * Alternative might be storing data outside Java managed heap.
-* Logback for logging purposes. 
+* Logback and SLF4j for logging purposes. 
 
 
 Running instructions
 -------------
 
-Still work in progress.
+1. Go to root folder
+* type "mvn exec:exec"
+* open web browser at localhost:8080
+* click "Connect"
+* write some values to push fields and click "Send"
