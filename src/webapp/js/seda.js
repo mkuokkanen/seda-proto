@@ -33,7 +33,7 @@ $(window)
 						document.getElementById('wssupport').innerHTML = "true";
 					}
 
-					var msg = '{"keyvalues": [{"key":"abc", "value":"def"}, {"key":"abcd", "value":"defd"}]}'
+					var msg = '{"keyvalues": []}'
 					parseJsonToTable(msg);
 				})
 

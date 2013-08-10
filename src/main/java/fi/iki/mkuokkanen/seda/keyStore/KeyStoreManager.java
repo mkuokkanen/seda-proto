@@ -53,9 +53,6 @@ public class KeyStoreManager {
         } else {
             logger.debug("Store push, op:update, key:{}, value:{}", key, value);
         }
-
-        broadcast();
-
         return true;
     }
 
