@@ -2,57 +2,66 @@ seda-proto
 ==========
 
 Simple application prototype to store key-value pairs. 
-Build with staged event-driven architecture (SEDA) principles.
-It combines few technologies I have researched recently, purpose is to help me remember later on what I have learned.
+Build with asynchronous messaging and staged event-driven architecture (SEDA) principles.
+It combines few technologies I have researched recently, 
+purpose is to help me remember later what I have learned.
 
-Key requirements:
-* Client-Server architechture, multiple clients and one (logical) server
-* Client must work in web browser for universal access
- * Java clients etc binary blobs are so old school 
-* Communication between client and server must happen asynchronously and efficiently, with data flowing in both directions
- * Request/response is so old school
-* Server must handle operations (events) in strongly serialized way.
- * Traditional web services that scale at the servlet level and serialize in db transactions are so old school
-* Build for performance
- * As serialization requirement forbids horizontal parallelisation, target vertical parallel processing, aka SEDA
- * Try to minimize Garbage Collection
-* Build for fail safety (High Availability)
- * Probably out of scope for this little demo
-* Documentation at level that is relevant to me
-* Easy runnability, so that I can return to this later and still understand how to make this work
-* Some automated tests (unit, performance) would be nice
-* Switchable technologies to compare performance would be nice, but probably too hard in this scope
+Some requirements
+------
 
-All still work in progress.
+* Client-server architechture, multiple clients and one server, with some simple functionality, like storing key-value pairs.
+* Server must handle requests with FIFO principle, request order must not change.
+* Clients must get information of changed state on server at the same time.
+* Provide believable try for good performance.
 
-Specifics
+Technology selections
 ----------
+
+### Protocol
+
+*WebSockets* as protocol between client and server. 
+It makes asyncronous message delivery possible
+and works with modern browsers, 
+which is nice.
+ * [HTTP polling with long timeout](http://stackoverflow.com/questions/1406580/jquery-ajax-polling-for-json-response-handling-based-on-ajax-result-or-json-con)? Probably not as efficient. Kind of kludge.
+ * [ZeroMQ](http://zeromq.org)? Interesting, but hard to make work in web browsers.
+ * [RabbitMQ](http://www.rabbitmq.com)? Hard to make work in web browsers, needs dedicated server app.
+ * [SPDY](http://en.wikipedia.org/wiki/SPDY)? Not enough knowledge to say anything.
+
+
+### Message format
+
+*JSON* as message format between client and server. Works well enough, especially with web browsers.
+* XML? Could work. Bigger msg size than JSON and unwelcome complexity with namespaces etc.
+* [Google Protobuf](http://code.google.com/p/protobuf/)? Interesting, but hard to make work in web browsers.
+* [Apache Thrift](http://thrift.apache.org/tutorial/js/)? Might work, but wants to mess with protocol layer too, documentation lacking.
+
 
 ### Client
 
-* HTML5 with JavaScript
- * Served as static pages, no need for dynamic page creation
- * Google Dart would be interesting, but JavaScript provides enough challenge
- * JQuery to make things little easier
-* Twitter Bootstrap 2.3.x for UI elements
- * Bootstrap 3 RC1 is available right now, might upgrade to it later
-* WebSockets for sending and receiving data
- * What alternatives there would be? E.g. ZeroMQ and RabbitMQ would be hard to make work with web browsers.
- * Would SPDY be option? Needs investigation.
+*HTML5* and *Javascript* with some selected libraries. Easy and fast to build PoC. Java Swing or JavaFX client would also be possbile, but binary blobs are so old school. OTOH, would make other protocols and message formats possible.
+* [JQuery](http://jquery.com) for some random Javascript tasks.
+ * Alternatives: AngularJS, ... no need in simple project.
+ * Google Dart? Interesting, but not relevant.
+* [Twitter Bootstrap 2](http://getbootstrap.com/2.3.2/) for UI elements
+ * Bootstrap 3? Might upgrade to it later
  
 ### Server
 
-* Java code, build with Maven
-* Embedded Jetty 9 for WebSocket implementation
- * Alternatives? Even Jetty seems to be still work in progress, with major rewrites even inside version 9.
-* Disruptor 3 for implementing SEDA (queues, stages)
- * Alternative might be multiple java.util.concurrent.ArrayBlockingQueue objects with self-managed threads.
-* JSON for moving data between client and server
- * json-simple for handling json
-* Javolution for storing data
- * Minimize GC by preallocating needed ByteBuffers.
- * Alternative might be storing data outside Java managed heap.
-* Logback and SLF4j for logging purposes. 
+Standalone *Java* code with selected libraries, build with *Maven* 
+* [Embedded Jetty 9](http://www.eclipse.org/jetty/) for WebSocket implementation
+ * Alternatives? Even Jetty implementation seems to be still work in progress, with major rewrites even inside version 9.
+* [Disruptor 3](http://lmax-exchange.github.io/disruptor/) for implementing SEDA (queues, stages)
+ * Alternative might be multiple java.util.concurrent.ArrayBlockingQueue objects or some other Java List objects with self-managed threads.
+ * [The LMAX Architecture - Martin Fowler](http://martinfowler.com/articles/lmax.html)
+* [json-simple](http://code.google.com/p/json-simple/) for handling json
+ * [comparison blog post](http://www.rojotek.com/blog/2009/05/07/a-review-of-5-java-json-libraries/)
+ * [minimal-json](http://eclipsesource.com/blogs/2013/04/18/minimal-json-parser-for-java/) seems nice, but no maven artifact to be found. [https://github.com/ralfstx/minimal-json](blog)
+* [Javolution](http://javolution.org) for storing data in preallocated ByteBuffers to minimize GC
+ * Alt: Store data outside heap [blog](http://vanillajava.blogspot.fi/2013/07/openhft-java-lang-project.html)
+* [Logback](http://logback.qos.ch) and [SLF4j](http://www.slf4j.org) for logging purposes. 
+ * Alt: Log4j 1.x, old school by now
+ * Alt: [Log4j 2.x](http://logging.apache.org/log4j/2.x/), new interesting stuff, but too little too late? But! "Asynchronous Loggers based on the LMAX Disruptor library".
 
 
 Running instructions
