@@ -58,6 +58,7 @@ Standalone *Java* code with selected libraries, build with *Maven*
  * [comparison blog post](http://www.rojotek.com/blog/2009/05/07/a-review-of-5-java-json-libraries/)
  * [minimal-json](http://eclipsesource.com/blogs/2013/04/18/minimal-json-parser-for-java/) seems nice, but no maven artifact to be found. [https://github.com/ralfstx/minimal-json](blog)
 * [Javolution](http://javolution.org) for storing data in preallocated ByteBuffers to minimize GC
+ * idea is from this [ticketing demo](https://github.com/mikeb01/ticketing)
  * Alt: Store data outside heap [blog](http://vanillajava.blogspot.fi/2013/07/openhft-java-lang-project.html)
 * [Logback](http://logback.qos.ch) and [SLF4j](http://www.slf4j.org) for logging purposes. 
  * Alt: Log4j 1.x, old school by now
