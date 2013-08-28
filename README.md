@@ -35,7 +35,7 @@ which is nice.
 * Alt: XML? Could work. Bigger msg size than JSON and unwelcome complexity with namespaces etc.
 * Alt: [Google Protobuf](http://code.google.com/p/protobuf/)? Interesting, but hard to make work in web browsers.
 * Alt: [Apache Thrift](http://thrift.apache.org/tutorial/js/)? Might work, but wants to mess with protocol layer too, documentation lacking.
-
+* Alt: [Apache avro](http://avro.apache.org)? Does anybody use this?
 
 ### Client
 
