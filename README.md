@@ -1,23 +1,31 @@
-seda-proto
-==========
+## Purpose
 
-Simple application prototype to store key-value pairs. 
-Build with asynchronous messaging and staged event-driven architecture (SEDA) principles.
-It combines few technologies I have researched recently, 
-purpose is to help me remember later what I have learned.
+Simple client-server application prototype. 
+Build with asynchronous messaging and [staged event-driven architecture (SEDA)](http://en.wikipedia.org/wiki/Staged_event-driven_architecture) principles.
+It combines few technologies I have researched recently,
+like html5, websockets, Disruptor, and so on. 
+Purpose is to help me remember later what I have learned.
 
-Some requirements
-------
+## Running instructions
+
+1. Go to root folder
+* type "mvn exec:exec"
+* open web browser at localhost:8080
+* click "Connect"
+* write some values to push fields and click "Send"
+
+## Metadata  
+
+### Some requirements
 
 * Client-server architechture, multiple clients and one server, with some simple functionality, like storing key-value pairs.
 * Server must handle requests with FIFO principle, request order must not change.
 * Clients must get information of changed state on server at the same time.
 * Provide believable try for good performance.
 
-Technology selections
-----------
+### Technology selections
 
-### Protocol
+#### Protocol
 
 *WebSockets* as protocol between client and server. 
 It makes asyncronous message delivery possible
@@ -29,7 +37,7 @@ which is nice.
  * Alt: [SPDY](http://en.wikipedia.org/wiki/SPDY)? Not enough knowledge to say anything.
 
 
-### Message format
+#### Message format
 
 *JSON* as message format between client and server. Works well enough, especially with web browsers.
 * Alt: XML? Could work. Bigger msg size than JSON and unwelcome complexity with namespaces etc.
@@ -37,16 +45,17 @@ which is nice.
 * Alt: [Apache Thrift](http://thrift.apache.org/tutorial/js/)? Might work, but wants to mess with protocol layer too, documentation lacking.
 * Alt: [Apache avro](http://avro.apache.org)? Does anybody use this?
 
-### Client
+#### Client
 
-*HTML5* and *Javascript* with some selected libraries. Easy and fast to build PoC. Java Swing or JavaFX client would also be possbile, but binary blobs are so old school. OTOH, would make other protocols and message formats possible.
+*HTML5* and *Javascript* with some selected libraries. Easy and fast to build PoC. 
+* Alt: Java Swing or JavaFX Client? Binary blobs are so old school. OTOH, would make other protocols and message formats possible.
 * [JQuery](http://jquery.com) for some random Javascript tasks.
  * Alt: AngularJS, ... no need in simple project.
  * Alt: Google Dart? Interesting, but not relevant.
 * [Twitter Bootstrap 2](http://getbootstrap.com/2.3.2/) for UI elements
  * Alt: Bootstrap 3? Might upgrade to it later
  
-### Server
+#### Server
 
 Standalone *Java* code with selected libraries, build with *Maven* 
 * [Embedded Jetty 9](http://www.eclipse.org/jetty/) for WebSocket implementation
@@ -63,13 +72,3 @@ Standalone *Java* code with selected libraries, build with *Maven*
 * [Logback](http://logback.qos.ch) and [SLF4j](http://www.slf4j.org) for logging purposes. 
  * Alt: Log4j 1.x, old school by now
  * Alt: [Log4j 2.x](http://logging.apache.org/log4j/2.x/), new interesting stuff, but too little too late? But! "Asynchronous Loggers based on the LMAX Disruptor library".
-
-
-Running instructions
--------------
-
-1. Go to root folder
-* type "mvn exec:exec"
-* open web browser at localhost:8080
-* click "Connect"
-* write some values to push fields and click "Send"
