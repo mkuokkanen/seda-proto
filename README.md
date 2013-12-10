@@ -9,7 +9,7 @@ Purpose is to help me remember later what I have learned.
 ## Running instructions
 
 1. Go to root folder
-* type "mvn exec:exec"
+* type "mvn clean install exec:exec"
 * open web browser at localhost:8080
 * click "Connect"
 * write some values to push fields and click "Send"
