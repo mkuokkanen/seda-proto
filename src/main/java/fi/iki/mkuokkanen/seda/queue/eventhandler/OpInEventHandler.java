@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.lmax.disruptor.EventHandler;
 
-import fi.iki.mkuokkanen.seda.keyStore.KeyStoreManager;
+import fi.iki.mkuokkanen.seda.keyStore.Storage;
 import fi.iki.mkuokkanen.seda.queue.event.Message;
 import fi.iki.mkuokkanen.seda.queue.event.MessageType;
 
@@ -19,9 +19,9 @@ public class OpInEventHandler implements EventHandler<Message> {
 
     private static Logger logger = LoggerFactory.getLogger(OpInEventHandler.class);
 
-    private KeyStoreManager keyStore;
+    private Storage keyStore;
 
-    public OpInEventHandler(KeyStoreManager keyStore) {
+    public OpInEventHandler(Storage keyStore) {
         this.keyStore = keyStore;
     }
 

@@ -3,15 +3,20 @@ package fi.iki.mkuokkanen.seda.keyStore;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
+import java.util.Map;
 
-import fi.iki.mkuokkanen.seda.keyStore.KeyStoreManager;
+import org.junit.Test;
 
 public class KeyStoreManagerTest {
 
     @Test
     public void push() {
-        KeyStoreManager ks = new KeyStoreManager(null);
+        Storage ks = new KeyStoreManager(new OutEventWriter() {
+            @Override
+            public void createFullRefreshEvent(Map<String, String> store) {
+                return;
+            }
+        });
 
         assertTrue(ks.push("abc", "def"));
         assertTrue(ks.push("abc", "defg"));

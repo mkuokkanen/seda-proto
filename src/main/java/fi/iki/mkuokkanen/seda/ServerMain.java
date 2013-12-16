@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import fi.iki.mkuokkanen.seda.api.SedaServer;
 import fi.iki.mkuokkanen.seda.api.WebsocketModule;
-import fi.iki.mkuokkanen.seda.api.session.SessionManager;
+import fi.iki.mkuokkanen.seda.keyStore.StorageModule;
+import fi.iki.mkuokkanen.seda.queue.QueueModule;
 
 /**
  * Main Application to start server.
@@ -21,17 +21,14 @@ public class ServerMain {
         logger.info("Starting application");
 
         Injector injector = Guice.createInjector(
-                new WebsocketModule()
+                new WebsocketModule(),
+                new QueueModule(),
+                new StorageModule()
                 );
 
-        SedaServer api = injector.getInstance(SedaServer.class);
+        ServerApp api = injector.getInstance(ServerApp.class);
         
         api.start();
-
-        ServerApp app = new ServerApp();
-        app.startEngines(injector.getInstance(SessionManager.class));
-        app.setupSingletonTransferrers(app);
-        app.startSchedulers();
 
         logger.info("Finished starting");
     }

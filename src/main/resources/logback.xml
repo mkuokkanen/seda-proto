@@ -7,7 +7,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="fi.iki.mkuokkanen" level="INFO" />
+	<logger name="fi.iki.mkuokkanen" level="DEBUG" />
 
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />

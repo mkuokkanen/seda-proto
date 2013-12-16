@@ -10,6 +10,7 @@ import org.eclipse.jetty.servlet.ServletHandler;
 
 import com.google.inject.Provider;
 
+import fi.iki.mkuokkanen.seda.api.QueueWriter;
 import fi.iki.mkuokkanen.seda.api.session.SessionManager;
 
 /**
@@ -19,14 +20,19 @@ import fi.iki.mkuokkanen.seda.api.session.SessionManager;
  */
 public class WebsocketContextProvider implements Provider<ContextHandler> {
 
-    private SessionManager sessionManager;
+    private final SessionManager sessionManager;
+    private final QueueWriter queueWriter;
 
     /**
+     * Default constructor.
+     * 
      * @param sessionManager
+     * @param queueWriter
      */
     @Inject
-    public WebsocketContextProvider(SessionManager sessionManager) {
+    public WebsocketContextProvider(SessionManager sessionManager, QueueWriter queueWriter) {
         this.sessionManager = checkNotNull(sessionManager);
+        this.queueWriter = checkNotNull(queueWriter);
     }
 
     @Override
@@ -50,6 +56,7 @@ public class WebsocketContextProvider implements Provider<ContextHandler> {
 
         // kludge
         WsSocket.setSessionManager(sessionManager);
+        WsSocket.setDisruptorWriter(queueWriter);
 
         return wsHandler;
     }

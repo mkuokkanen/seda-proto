@@ -1,7 +1,11 @@
 package fi.iki.mkuokkanen.seda.keyStore;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +15,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author mkuokkanen
  */
-public class KeyStoreManager {
+class KeyStoreManager implements Storage {
 
     private static Logger logger = LoggerFactory.getLogger(KeyStoreManager.class);
     private static final int MAX_SIZE = 100;
@@ -21,21 +25,23 @@ public class KeyStoreManager {
      */
     private Map<String, String> store = new HashMap<>(MAX_SIZE);
 
-    private OutEventGenerator outEventGenerator;
-
-    public KeyStoreManager(OutEventGenerator outEventGenerator) {
-        this.outEventGenerator = outEventGenerator;
-
-        if (this.outEventGenerator == null) {
-            logger.warn("KeyStore does not have outEventGenerator, no messages will be pushed forward.");
-        }
-    }
+    private OutEventWriter outEventGenerator;
 
     /**
-     * @param key
-     * @param value
-     * @return success in operation
+     * Default Constructor.
+     * 
+     * @param outEventGenerator
      */
+    @Inject
+    public KeyStoreManager(OutEventWriter outEventGenerator) {
+        this.outEventGenerator = checkNotNull(outEventGenerator);
+
+        // if (this.outEventGenerator == null) {
+        // logger.warn("KeyStore does not have outEventGenerator, no messages will be pushed forward.");
+        // }
+    }
+
+    @Override
     public boolean push(String key, String value) {
         logger.info("Push {}:{}", key, value);
 
@@ -56,10 +62,7 @@ public class KeyStoreManager {
         return true;
     }
 
-    /**
-     * @param key
-     * @return
-     */
+    @Override
     public boolean delete(String key) {
         String ret = store.remove(key);
 
@@ -72,9 +75,7 @@ public class KeyStoreManager {
         }
     }
 
-    /**
-     * @return
-     */
+    @Override
     public boolean broadcast() {
         if (outEventGenerator == null) {
             logger.warn("Ignoring broadcast request because no KeyStore does not know where to put it.");

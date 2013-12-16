@@ -1,5 +1,7 @@
 package fi.iki.mkuokkanen.seda.queue;
 
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,25 +13,26 @@ import fi.iki.mkuokkanen.seda.queue.event.Message;
 import fi.iki.mkuokkanen.seda.queue.eventhandler.LoggerEventHandler;
 import fi.iki.mkuokkanen.seda.queue.eventhandler.OpOutEventHandler;
 
-public class DisruptorOut extends AbstractDisruptor {
+/**
+ * Outbound queue, passes messages from store to clients.
+ * 
+ * @author mkuokkanen
+ */
+class DisruptorOut extends AbstractDisruptor {
 
     private static Logger logger = LoggerFactory.getLogger(DisruptorOut.class);
+    private final SessionManager sessionManager;
 
     /**
      * Constructor
      * 
      * @param sessionManager
      */
-    public DisruptorOut(SessionManager sessionManager) {
-        super();
+    @Inject
+    DisruptorOut(SessionManager sessionManager) {
+        logger.debug("init disruptor out");
 
-        Disruptor<Message> disruptor = createDisruptorWizard();
-        setupEventHandlers(disruptor, sessionManager);
-
-        // Create actual Ringbuffer from Disruptor Wizard
-        ringBuffer = disruptor.start();
-
-        logger.info("Outbound ringbuffer created, {}", ringBuffer);
+        this.sessionManager = sessionManager;
     }
 
     /**
@@ -39,7 +42,8 @@ public class DisruptorOut extends AbstractDisruptor {
      * @param sessionManager
      */
     @SuppressWarnings("unchecked")
-    protected void setupEventHandlers(Disruptor<Message> disruptor, SessionManager sessionManager) {
+    @Override
+    void setupEventHandlers(Disruptor<Message> disruptor) {
         EventHandler<Message> log = new LoggerEventHandler("OutLog1");
         EventHandler<Message> opOut = new OpOutEventHandler(sessionManager);
 

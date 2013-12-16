@@ -8,8 +8,7 @@ import org.json.simple.parser.ParseException;
 import org.junit.Test;
 
 import fi.iki.mkuokkanen.seda.api.json.JsonCreator;
-import fi.iki.mkuokkanen.seda.keyStore.KeyStoreManager;
-import fi.iki.mkuokkanen.seda.queue.DisruptorIn;
+import fi.iki.mkuokkanen.seda.keyStore.Storage;
 import fi.iki.mkuokkanen.seda.queue.translator.JsonToMessageTranslator;
 
 public class DisruptorInTest {
@@ -17,8 +16,25 @@ public class DisruptorInTest {
     @Test
     public void testPushCreation() throws ParseException {
 
-        KeyStoreManager keyStore = new KeyStoreManager(null);
+        Storage keyStore = new Storage() {
+
+            @Override
+            public boolean push(String key, String value) {
+                return true;
+            }
+
+            @Override
+            public boolean delete(String key) {
+                return true;
+            }
+
+            @Override
+            public boolean broadcast() {
+                return true;
+            }
+        };
         DisruptorIn in = new DisruptorIn(keyStore);
+        in.start();
 
         for (int i = 0; i < 5000; i++) {
             doPush(in);

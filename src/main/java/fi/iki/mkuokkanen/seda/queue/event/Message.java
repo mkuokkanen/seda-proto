@@ -7,6 +7,12 @@ import javolution.io.Struct;
 import com.google.common.base.Objects;
 import com.lmax.disruptor.EventFactory;
 
+/**
+ * Descibes one message, that is stored in disruptor queueu. Provides
+ * preallocated memory.
+ * 
+ * @author mkuokkanen
+ */
 public class Message extends Struct {
 
     public final Signed64 id = new Signed64();

@@ -1,46 +1,51 @@
 package fi.iki.mkuokkanen.seda.queue;
 
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.dsl.Disruptor;
 
-import fi.iki.mkuokkanen.seda.keyStore.KeyStoreManager;
+import fi.iki.mkuokkanen.seda.keyStore.Storage;
 import fi.iki.mkuokkanen.seda.queue.event.Message;
 import fi.iki.mkuokkanen.seda.queue.eventhandler.LoggerEventHandler;
 import fi.iki.mkuokkanen.seda.queue.eventhandler.OpInEventHandler;
 
 /**
+ * Inbound queue, passes messages from clients to storage.
+ * 
  * @author mkuokkanen
  */
-public class DisruptorIn extends AbstractDisruptor {
+class DisruptorIn extends AbstractDisruptor {
 
     private static Logger logger = LoggerFactory.getLogger(DisruptorIn.class);
 
-    public DisruptorIn(KeyStoreManager keyStore) {
-        super();
+    private final Storage storage;
 
-        Disruptor<Message> disruptor = createDisruptorWizard();
-        setupEventHandlers(disruptor, keyStore);
-
-        // Create actual Ringbuffer from Disruptor Wizard
-        ringBuffer = disruptor.start();
-
-        logger.info("Inbound ringbuffer created, {}", ringBuffer);
+    /**
+     * Default constructor.
+     * 
+     * @param storage
+     */
+    @Inject
+    DisruptorIn(Storage storage) {
+        logger.debug("init disruptor in");
+        this.storage = storage;
     }
 
     /**
-     * Creates eventhandlers and sets their processing order.
+     * Creates event handlers and sets their processing order.
      * 
      * @param disruptor
      * @param keyStore
      */
     @SuppressWarnings("unchecked")
-    private void setupEventHandlers(Disruptor<Message> disruptor, KeyStoreManager keyStore) {
-
+    @Override
+    void setupEventHandlers(Disruptor<Message> disruptor) {
         EventHandler<Message> logHandler = new LoggerEventHandler("InLog");
-        EventHandler<Message> operation = new OpInEventHandler(keyStore);
+        EventHandler<Message> operation = new OpInEventHandler(storage);
 
         disruptor
                 .handleEventsWith(logHandler)
