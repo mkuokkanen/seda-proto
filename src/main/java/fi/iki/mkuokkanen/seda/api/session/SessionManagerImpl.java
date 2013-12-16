@@ -1,4 +1,4 @@
-package fi.iki.mkuokkanen.seda.api;
+package fi.iki.mkuokkanen.seda.api.session;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -9,39 +9,39 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Implements Session Manager
+ * 
  * @author mkuokkanen
  */
-public class SessionManager {
+public class SessionManagerImpl implements SessionManager {
 
-    private static Logger logger = LoggerFactory.getLogger(SessionManager.class);
+    private static Logger logger = LoggerFactory.getLogger(SessionManagerImpl.class);
 
-    /**
-     * Singleton
-     */
-    public static final SessionManager instance = new SessionManager();
-    
     /**
      * Store
      */
     private final Set<Session> sessions;
 
     /**
-     * Private constructor
+     * Default constructor
      */
-    private SessionManager() {
+    public SessionManagerImpl() {
         sessions = new HashSet<>();
     }
 
+    @Override
     public void join(Session s) {
         logger.info("Session joined: {}", s.getRemoteAddress());
         sessions.add(s);
     }
-    
+
+    @Override
     public void part(Session s) {
         logger.info("Session parted: {}", s.getRemoteAddress());
         sessions.remove(s);
     }
 
+    @Override
     public void sendAll(String str) {
         for (Session each : sessions) {
             logger.info("Msg sended {}, {}", str, each.getRemoteAddress());

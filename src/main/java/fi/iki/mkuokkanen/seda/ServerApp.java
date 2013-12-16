@@ -4,8 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fi.iki.mkuokkanen.seda.api.ApiToDisruptor;
-import fi.iki.mkuokkanen.seda.api.SessionManager;
-import fi.iki.mkuokkanen.seda.api.websocket.JettyWebsocketServer;
+import fi.iki.mkuokkanen.seda.api.session.SessionManager;
 import fi.iki.mkuokkanen.seda.keyStore.KeyStoreManager;
 import fi.iki.mkuokkanen.seda.keyStore.OutEventGenerator;
 import fi.iki.mkuokkanen.seda.queue.DisruptorIn;
@@ -28,10 +27,12 @@ public class ServerApp {
 
     /**
      * Init all components in reverse order from output to input.
+     * 
+     * @param sessionManager
      */
-    public void startEngines() {
+    public void startEngines(SessionManager sessionManager) {
         // Internal outbound queue
-        out = new DisruptorOut();
+        out = new DisruptorOut(sessionManager);
 
         // Outbound queue event generator, talks to DisruptorOut
         outEventGenerator = new OutEventGenerator(out.getRingBuffer());
@@ -43,28 +44,7 @@ public class ServerApp {
         in = new DisruptorIn(keyStore);
     }
 
-    public void startApi() {
-        JettyWebsocketServer s = new JettyWebsocketServer();
-        try {
-            s.setup();
-        } catch (Exception e) {
-            logger.error("Error happened while starting jetty.", e);
-        }
-    }
-
-    public static void main(String[] args) {
-        logger.info("Starting application");
-
-        ServerApp app = new ServerApp();
-        app.startEngines();
-        app.setupSingletonTransferrers(app);
-        app.startApi();
-        app.startSchedulers();
-
-        logger.info("Finished starting");
-    }
-
-    private void startSchedulers() {
+    void startSchedulers() {
         scheduler = new EventScheduler();
         scheduler.setup(in.getRingBuffer());
     }
@@ -74,10 +54,8 @@ public class ServerApp {
      * 
      * @param app
      */
-    private void setupSingletonTransferrers(ServerApp app) {
+    void setupSingletonTransferrers(ServerApp app) {
         ApiToDisruptor.instance.setRingbuffer(app.in.getRingBuffer());
-        // make sure this is created, could do something more intelligent here
-        SessionManager.instance.hashCode();
     }
 
 }

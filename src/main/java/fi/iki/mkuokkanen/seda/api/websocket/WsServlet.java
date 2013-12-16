@@ -4,9 +4,7 @@ import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
 /**
- * Good info.
- * http://stackoverflow.com/questions/15646213/how-do-i-access-instantiated
- * -websockets-in-jetty-9
+ * Only purpose of this Servlet is to provide WebSocket.
  * 
  * @author mkuokkanen
  */
@@ -19,4 +17,5 @@ public class WsServlet extends WebSocketServlet {
         // factory.getPolicy().setIdleTimeout(1000);
         factory.register(WsSocket.class);
     }
+
 }

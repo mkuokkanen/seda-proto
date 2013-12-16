@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.dsl.Disruptor;
 
+import fi.iki.mkuokkanen.seda.api.session.SessionManager;
 import fi.iki.mkuokkanen.seda.queue.event.Message;
 import fi.iki.mkuokkanen.seda.queue.eventhandler.LoggerEventHandler;
 import fi.iki.mkuokkanen.seda.queue.eventhandler.OpOutEventHandler;
@@ -16,12 +17,14 @@ public class DisruptorOut extends AbstractDisruptor {
 
     /**
      * Constructor
+     * 
+     * @param sessionManager
      */
-    public DisruptorOut() {
+    public DisruptorOut(SessionManager sessionManager) {
         super();
 
         Disruptor<Message> disruptor = createDisruptorWizard();
-        setupEventHandlers(disruptor);
+        setupEventHandlers(disruptor, sessionManager);
 
         // Create actual Ringbuffer from Disruptor Wizard
         ringBuffer = disruptor.start();
@@ -33,11 +36,12 @@ public class DisruptorOut extends AbstractDisruptor {
      * Creates eventhandlers and sets their processing order.
      * 
      * @param disruptor
+     * @param sessionManager
      */
     @SuppressWarnings("unchecked")
-    protected void setupEventHandlers(Disruptor<Message> disruptor) {
+    protected void setupEventHandlers(Disruptor<Message> disruptor, SessionManager sessionManager) {
         EventHandler<Message> log = new LoggerEventHandler("OutLog1");
-        EventHandler<Message> opOut = new OpOutEventHandler();
+        EventHandler<Message> opOut = new OpOutEventHandler(sessionManager);
 
         disruptor
                 .handleEventsWith(log)

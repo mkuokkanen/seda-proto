@@ -1,12 +1,14 @@
 package fi.iki.mkuokkanen.seda.api.websocket;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fi.iki.mkuokkanen.seda.api.ApiToDisruptor;
-import fi.iki.mkuokkanen.seda.api.SessionManager;
+import fi.iki.mkuokkanen.seda.api.session.SessionManager;
 
 /**
  * One instance per session, i presume.
@@ -17,19 +19,35 @@ public class WsSocket implements WebSocketListener {
 
     private static Logger logger = LoggerFactory.getLogger(WsSocket.class);
 
+    /**
+     * Kind of kludge. Need this because we don't get to initialize this class.
+     */
+    private static SessionManager sessionManager = null;
+
     private Session session;
+
+    /**
+     * This shouldn't be needed, but currently we don't have access to
+     * instantiation chain.
+     * 
+     * @param sessionManager
+     */
+    public static void setSessionManager(SessionManager sessionManager) {
+        checkState(WsSocket.sessionManager == null, "Don't call this twice!");
+        WsSocket.sessionManager = sessionManager;
+    }
 
     @Override
     public void onWebSocketConnect(Session session) {
         logger.info("Server got connection from address '{}'", session.getRemoteAddress());
         this.session = session;
-        SessionManager.instance.join(session);
+        sessionManager.join(session);
     }
 
     @Override
     public void onWebSocketClose(int statusCode, String reason) {
         logger.info("Server got close with code: '{}', msg '{}'", statusCode, reason);
-        SessionManager.instance.part(session);
+        sessionManager.part(session);
     }
 
     @Override

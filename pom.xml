@@ -25,6 +25,7 @@
 		<slf4j.version>1.7.5</slf4j.version>
 		<logback.version>1.0.13</logback.version>
 		<javolution.version>5.5.1</javolution.version>
+		<guice.version>3.0</guice.version>
 		<guava.version>14.0.1</guava.version>
 		<json-simple.version>1.1.1</json-simple.version>
 		<junit.version>4.11</junit.version>
@@ -51,6 +52,19 @@
 			<version>${jetty.version}</version>
 		</dependency>
 
+		<!-- di and other google tools -->
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
+
+
 		<!-- internal queues and handling -->
 		<dependency>
 			<groupId>com.lmax</groupId>
@@ -61,13 +75,6 @@
 			<groupId>javolution</groupId>
 			<artifactId>javolution</artifactId>
 			<version>${javolution.version}</version>
-		</dependency>
-
-		<!-- Used only for making nice toString methods -->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>${guava.version}</version>
 		</dependency>
 
 		<!-- json stuff -->

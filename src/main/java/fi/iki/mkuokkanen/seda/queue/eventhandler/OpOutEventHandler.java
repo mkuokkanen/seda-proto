@@ -1,5 +1,7 @@
 package fi.iki.mkuokkanen.seda.queue.eventhandler;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -7,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.lmax.disruptor.EventHandler;
 
-import fi.iki.mkuokkanen.seda.api.SessionManager;
+import fi.iki.mkuokkanen.seda.api.session.SessionManager;
 import fi.iki.mkuokkanen.seda.queue.event.Message;
 import fi.iki.mkuokkanen.seda.queue.event.MessageType;
 
@@ -17,9 +19,10 @@ import fi.iki.mkuokkanen.seda.queue.event.MessageType;
 public class OpOutEventHandler implements EventHandler<Message> {
 
     private static Logger logger = LoggerFactory.getLogger(OpOutEventHandler.class);
+    private final SessionManager sessionManager;
 
-    public OpOutEventHandler() {
-      
+    public OpOutEventHandler(SessionManager sessionManager) {
+        this.sessionManager = checkNotNull(sessionManager);
     }
 
     @Override
@@ -60,6 +63,6 @@ public class OpOutEventHandler implements EventHandler<Message> {
         JSONObject root = new JSONObject();
         root.put("keyvalues", list);
 
-        SessionManager.instance.sendAll(root.toJSONString());
+        sessionManager.sendAll(root.toJSONString());
     }
 }
