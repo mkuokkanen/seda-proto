@@ -1,0 +1,30 @@
+# 
+# Further reading:
+# http://git-scm.com/docs/gitattributes
+# https://help.github.com/articles/dealing-with-line-endings
+# http://adaptivepatchwork.com/2012/03/01/mind-the-end-of-your-line/
+
+# Enable heuristics for sniffing text files, hope it works
+* text=auto
+
+# explicitly declare some filetypes as text
+*.c	text	diff=cpp
+*.h	text
+*.java	text	diff=java
+*.md	text
+*.html	text	diff=html
+*.css	text
+*.xml	text
+
+# explicitly declare some filetypes as binary
+*.png	binary
+*.jpg	binary
+*.png	binary
+
+*.class binary
+*.jar	binary
+
+
+# some files must use LF in checkout even if they are text
+*.sh	eol=lf
+
