@@ -118,7 +118,7 @@
         <version>2.3</version>
       </plugin>
 
-      <!-- analyzes code -->
+      <!-- analyzes code with pmd -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
@@ -133,6 +133,25 @@
           <targetJdk>${project.jdk.version}</targetJdk>
           <lineLength>120</lineLength>
         </configuration>
+      </plugin>
+
+      <!-- analyzes code with checkstyle -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.11</version>
+        <configuration>
+          <includeTestSourceDirectory>true</includeTestSourceDirectory>
+          <indentSize>2</indentSize>
+          <lineLength>120</lineLength>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>checkstyle</report>
+            </reports>
+          </reportSet>
+        </reportSets>
       </plugin>
     </plugins>
   </reporting>
