@@ -153,6 +153,13 @@
           </reportSet>
         </reportSets>
       </plugin>
+      
+      <!-- analyzes code with findbugs -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>2.5.3</version>
+      </plugin>
     </plugins>
   </reporting>
 
