@@ -8,11 +8,19 @@ Purpose is to help me remember later what I have learned.
 
 ## Running instructions
 
+### Program
+
 1. Go to root folder
 * type "mvn clean install exec:exec"
 * open web browser at localhost:8080
 * click "Connect"
 * write some values to push fields and click "Send"
+
+### Source code analysis
+
+1. mvn clean site
+* open target/site/index.html in browser
+* Check Project Reports from bottom left link div.
 
 ## Metadata  
 
