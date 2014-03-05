@@ -1,3 +1,6 @@
+/*
+ * Parse Json message to table and insert it into page.
+ */
 function parseJsonToTable(strMsg) {
 	var obj = jQuery.parseJSON(strMsg);
 
@@ -12,39 +15,42 @@ function parseJsonToTable(strMsg) {
 	$("#result-div").html(table);
 }
 
-function parseJsonToTable(strMsg) {
-	var obj = jQuery.parseJSON(strMsg);
+/*
+ * During startup check if websockets are available.
+ */
+$(window).load(function() {
+	
+	$('#datacontainer').hide();
+	
+	if ("WebSocket" in window) {
+		document.getElementById('wssupport').innerHTML = "true";
+	}
+})
 
-	var table = '<table class="table table-bordered table-hover">';
-	table += '<tr><th>Key</th><th>Value</th></tr>';
+/*
+ * Setup result data after startup
+ */
+$(window).load(function() {
+	var msg = '{"keyvalues": []}'
+	parseJsonToTable(msg);
+})
 
-	$.each(obj.keyvalues, function(index, item) {
-		table += '<tr><td>' + item.key + '</td><td>' + item.value
-				+ '</td></tr>';
-	});
-	table += '</table>';
-	$("#result-div").html(table);
-}
-
-$(window)
-		.load(
-				function() {
-					if ("WebSocket" in window) {
-						document.getElementById('wssupport').innerHTML = "true";
-					}
-
-					var msg = '{"keyvalues": []}'
-					parseJsonToTable(msg);
-				})
-
+/*
+ * WS instance variable
+ */
 var ws
 
+/*
+ * Btn func connect
+ */
 $("#btn-connect").click(function() {
 	var serverIp = document.getElementById('input-serverIp-id').value
 	ws = new WebSocket(serverIp);
 
 	ws.onopen = function() {
 		document.getElementById('wsconnect').innerHTML = "connected";
+		$('#logincontainer').hide();
+		$('#datacontainer').show();
 	};
 
 	ws.onmessage = function(evt) {
@@ -54,9 +60,14 @@ $("#btn-connect").click(function() {
 
 	ws.onclose = function() {
 		document.getElementById('wsconnect').innerHTML = "disconnected";
+		$('#logincontainer').show();
+		$('#datacontainer').hide();
 	};
 });
 
+/*
+ * Btn func add entry
+ */
 $("#btn-push").click(function() {
 	var msg = {
 		op : "push",
@@ -68,6 +79,9 @@ $("#btn-push").click(function() {
 	ws.send(strMsg);
 });
 
+/*
+ * Btn func delete entry
+ */
 $("#btn-delete").click(function() {
 	var msg = {
 		op : "delete",

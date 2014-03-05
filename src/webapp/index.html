@@ -6,59 +6,70 @@
 <!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 </head>
-
-
 <body>
+
+  <!-- header -->
   <div class="container">
-
-    <div class="jumbotron">
+    <div class="hero-unit">
       <h1>SEDA-proto</h1>
-      <p class="lead">A little WebSocket test.</p>
+      <p>
+        A little WebSocket test.<br /> Browser supports WebSocket: <span
+          id="wssupport">false</span><br /> WebSocket is connected: <span
+          id="wsconnect">-</span>
+      </p>
     </div>
+  </div>
 
-    <hr>
+  <!-- login -->
+  <div id="logincontainer" class="container">
+    <div class="row-fluid">
+      <div class="span4"></div>
+      <div class="span4">
+        <div class="well">
+          <fieldset>
+            <legend>Server connection</legend>
+            <label>Address</label><input id="input-serverIp-id"
+              type="text" placeholder="ws://host:port/context/"
+              value="ws://localhost:8080/websocket/"><br>
+            <button id="btn-connect" type="button" class="btn">Connect</button>
+          </fieldset>
+        </div>
+      </div>
+      <div class="span4"></div>
+    </div>
+  </div>
 
+  <!-- data after login -->
+  <div id="datacontainer" class="container">
     <div class="row-fluid">
       <div class="span4">
         <h2>Operations</h2>
 
         <div class="well">
-            <fieldset>
-              <legend>Server connection</legend>
-              <label>IP</label> 
-              <input id="input-serverIp-id" type="text" placeholder="ws://host:port/context/" value="ws://localhost:8080/websocket/"> <br>
-              <button id="btn-connect" type="button" class="btn">Connect</button>
-            </fieldset>
+          <fieldset>
+            <legend>Send push</legend>
+            <label>Key</label> <input id="input-push-key" type="text"
+              placeholder="key value"> <label>Value</label> <input
+              id="input-push-value" type="text" placeholder="key value">
+            <br>
+            <button id="btn-push" type="button" class="btn">Send</button>
+          </fieldset>
         </div>
 
         <div class="well">
-            <fieldset>
-              <legend>Send push</legend>
-              <label>Key</label>
-              <input id="input-push-key" type="text" placeholder="key value"> 
-              <label>Value</label>
-              <input id="input-push-value" type="text" placeholder="key value"> <br>
-              <button id="btn-push" type="button" class="btn">Send</button>
-            </fieldset>
-        </div>
-
-        <div class="well">
-            <fieldset>
-              <legend>Send delete</legend>
-              <label>Key</label> 
-              <input id="input-delete-key" type="text" placeholder="key value"> <br>
-              <button id="btn-delete" type="button" class="btn">Send</button>
-            </fieldset>
+          <fieldset>
+            <legend>Send delete</legend>
+            <label>Key</label> <input id="input-delete-key" type="text"
+              placeholder="key value"> <br>
+            <button id="btn-delete" type="button" class="btn">Send</button>
+          </fieldset>
         </div>
       </div>
 
       <div class="span8">
         <h2>Status</h2>
-        
-        <p>Browser supports WebSocket: <span id="wssupport">false</span></p>
-        <p>WebSocket is connected: <span id="wsconnect">-</span></p>
-        
         <div id="result-div">
+          <!-- how data in here -->
         </div>
       </div>
     </div>
@@ -66,7 +77,7 @@
     <hr>
 
     <div class="footer">
-      <p>&copy; Mikko Kuokkanen 2013</p>
+      <p>&copy; Mikko Kuokkanen 2013-2014</p>
     </div>
 
   </div>
