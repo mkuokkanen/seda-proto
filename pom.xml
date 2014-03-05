@@ -230,7 +230,7 @@
           <arguments>
             <argument>-classpath</argument>
             <classpath />
-            <argument>fi.iki.mkuokkanen.seda.ServerApp</argument>
+            <argument>fi.iki.mkuokkanen.seda.ServerMain</argument>
           </arguments>
         </configuration>
       </plugin>
