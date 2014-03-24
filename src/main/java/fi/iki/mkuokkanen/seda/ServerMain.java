@@ -7,6 +7,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import fi.iki.mkuokkanen.seda.api.WebsocketModule;
+import fi.iki.mkuokkanen.seda.config.ConfigurationModule;
 import fi.iki.mkuokkanen.seda.keyStore.StorageModule;
 import fi.iki.mkuokkanen.seda.queue.QueueModule;
 import fi.iki.mkuokkanen.seda.timed.SchedulerModule;
@@ -27,7 +28,8 @@ public class ServerMain {
                 new WebsocketModule(),
                 new QueueModule(),
                 new StorageModule(),
-                new SchedulerModule()
+                new SchedulerModule(),
+                new ConfigurationModule()
                 );
 
         ServerApp api = injector.getInstance(ServerApp.class);

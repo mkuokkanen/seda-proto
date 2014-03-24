@@ -1,5 +1,8 @@
 package fi.iki.mkuokkanen.seda.api.resources;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 
@@ -12,12 +15,24 @@ import com.google.inject.Provider;
  */
 public class ResourceContextProvider implements Provider<ContextHandler> {
 
+    private final String contextPath;
+
+    /**
+     * Default constructor.
+     * 
+     * @param contextPath
+     */
+    @Inject
+    public ResourceContextProvider(@Named("api.resource.contextpath") String contextPath) {
+        this.contextPath = contextPath;
+    }
+
     @Override
     public ContextHandler get() {
         ResourceHandler rHandler = createResourceHandler();
 
         ContextHandler context = new ContextHandler();
-        context.setContextPath("/");
+        context.setContextPath(contextPath);
         context.setHandler(rHandler);
         return context;
     }

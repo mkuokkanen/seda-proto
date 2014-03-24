@@ -3,6 +3,7 @@ package fi.iki.mkuokkanen.seda.api.websocket;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -22,17 +23,23 @@ public class WebsocketContextProvider implements Provider<ContextHandler> {
 
     private final SessionManager sessionManager;
     private final QueueWriter queueWriter;
+    private final String contextPath;
 
     /**
      * Default constructor.
      * 
      * @param sessionManager
      * @param queueWriter
+     * @param contextPath
      */
     @Inject
-    public WebsocketContextProvider(SessionManager sessionManager, QueueWriter queueWriter) {
+    public WebsocketContextProvider(
+            SessionManager sessionManager,
+            QueueWriter queueWriter,
+            @Named("api.websocket.contextpath") String contextPath) {
         this.sessionManager = checkNotNull(sessionManager);
         this.queueWriter = checkNotNull(queueWriter);
+        this.contextPath = checkNotNull(contextPath);
     }
 
     @Override
@@ -40,7 +47,7 @@ public class WebsocketContextProvider implements Provider<ContextHandler> {
         ServletHandler wsHandler = createServlet();
 
         ContextHandler wsContext = new ServletContextHandler();
-        wsContext.setContextPath("/websocket");
+        wsContext.setContextPath(contextPath);
         wsContext.setHandler(wsHandler);
         return wsContext;
     }
