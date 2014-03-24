@@ -44,7 +44,7 @@ public class SessionManagerImpl implements SessionManager {
     @Override
     public void sendAll(String str) {
         for (Session each : sessions) {
-            logger.info("Msg sended {}, {}", str, each.getRemoteAddress());
+            logger.debug("Msg sended {}, {}", str, each.getRemoteAddress());
             try {
                 each.getRemote().sendString(str);
             } catch (IOException e) {

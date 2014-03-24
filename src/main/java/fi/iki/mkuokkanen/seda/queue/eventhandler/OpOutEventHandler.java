@@ -46,7 +46,7 @@ public class OpOutEventHandler implements EventHandler<Message> {
     private void doBroadcast(Message event) {
         int count = event.asBroadcastResponse.keyCount.get();
         
-        logger.info("got broadcast message with {} key-value pairs.", count);
+        logger.debug("got broadcast message with {} key-value pairs.", count);
         
         // create list
         JSONArray list = new JSONArray();

@@ -38,7 +38,7 @@ public class BroadcastPublisher implements Runnable {
     }
 
     private void operation() {
-        logger.info("Pushing timed broadcast message");
+        logger.debug("Pushing timed broadcast message");
 
         String str = JsonCreator.createBroadcastMsg();
 
