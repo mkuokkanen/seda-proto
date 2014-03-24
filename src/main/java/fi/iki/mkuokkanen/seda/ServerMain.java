@@ -22,7 +22,7 @@ public class ServerMain {
     private static Injector injector;
 
     public static void main(String[] args) {
-        logger.info("Starting application");
+        logger.info("Starting application from main method");
 
         injector = Guice.createInjector(
                 new WebsocketModule(),

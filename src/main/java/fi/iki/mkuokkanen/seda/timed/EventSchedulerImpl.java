@@ -41,7 +41,7 @@ class EventSchedulerImpl implements EventScheduler {
 
     @Override
     public void start() {
-        logger.info("Starting Scheduled operations");
+        logger.info("start() - timed operations");
 
         stpe.scheduleAtFixedRate(
                 new BroadcastPublisher(queue),
@@ -52,6 +52,7 @@ class EventSchedulerImpl implements EventScheduler {
 
     @Override
     public void stop() {
+        logger.info("stop() - timed operations");
         stpe.shutdownNow();
         logger.info("scheduler shut down: {}", stpe.isShutdown());
     }

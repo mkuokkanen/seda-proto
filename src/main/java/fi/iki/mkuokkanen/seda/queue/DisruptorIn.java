@@ -2,9 +2,6 @@ package fi.iki.mkuokkanen.seda.queue;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.dsl.Disruptor;
 
@@ -20,7 +17,8 @@ import fi.iki.mkuokkanen.seda.queue.eventhandler.OpInEventHandler;
  */
 class DisruptorIn extends AbstractDisruptor {
 
-    private static Logger logger = LoggerFactory.getLogger(DisruptorIn.class);
+    // private static Logger logger =
+    // LoggerFactory.getLogger(DisruptorIn.class);
 
     private final Storage storage;
 
@@ -31,7 +29,6 @@ class DisruptorIn extends AbstractDisruptor {
      */
     @Inject
     DisruptorIn(Storage storage) {
-        logger.debug("init disruptor in");
         this.storage = storage;
     }
 

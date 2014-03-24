@@ -40,7 +40,7 @@ public class SedaServer implements Service {
 
     @Override
     public void start() {
-        logger.info("Starting WebSocket API layer");
+        logger.info("start() - websocket api");
 
         try {
             server.start();
@@ -51,6 +51,8 @@ public class SedaServer implements Service {
 
     @Override
     public void stop() {
+        logger.info("stop() - websocket api");
+
         try {
             server.stop();
         } catch (Exception e) {

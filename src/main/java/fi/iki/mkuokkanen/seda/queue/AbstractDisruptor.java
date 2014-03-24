@@ -52,7 +52,7 @@ public abstract class AbstractDisruptor implements Queue {
 
     @Override
     public void start() {
-        logger.info("Starting Disruptor queue");
+        logger.info("start() - disruptor queue");
 
         disruptor = createDisruptorWizard();
         setupEventHandlers(disruptor);
@@ -61,6 +61,7 @@ public abstract class AbstractDisruptor implements Queue {
 
     @Override
     public void stop() {
+        logger.info("stop() - disruptor queue");
         disruptor.shutdown();
     }
     

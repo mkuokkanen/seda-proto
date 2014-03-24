@@ -47,7 +47,7 @@ public class ServerApp implements Service {
 
     @Override
     public void start() {
-        logger.info("Starting app");
+        logger.info("start() - app");
 
         inQ.start();
         outQ.start();
@@ -57,6 +57,8 @@ public class ServerApp implements Service {
 
     @Override
     public void stop() {
+        logger.info("stop() - app");
+
         scheduler.stop();
         api.stop();
         outQ.stop();
