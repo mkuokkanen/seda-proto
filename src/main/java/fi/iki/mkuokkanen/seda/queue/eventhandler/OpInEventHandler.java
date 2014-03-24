@@ -19,7 +19,7 @@ public class OpInEventHandler implements EventHandler<Message> {
 
     private static Logger logger = LoggerFactory.getLogger(OpInEventHandler.class);
 
-    private Storage keyStore;
+    private final Storage keyStore;
 
     public OpInEventHandler(Storage keyStore) {
         this.keyStore = keyStore;
@@ -29,7 +29,7 @@ public class OpInEventHandler implements EventHandler<Message> {
     public void onEvent(Message event, long sequence, boolean endOfBatch) throws Exception {
 
         MessageType type = (MessageType) event.type.get();
-        logger.info("Handling event type {} (seq {}).", type, sequence);
+        logger.debug("Handling event type {} (seq {}).", type, sequence);
 
         switch (type) {
         case IN_PUSH:

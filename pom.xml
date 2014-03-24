@@ -31,6 +31,11 @@
     <guava.version>14.0.1</guava.version>
     <json-simple.version>1.1.1</json-simple.version>
     <junit.version>4.11</junit.version>
+
+    <!-- Testing parameters -->
+    <skipTests>false</skipTests>
+    <skipITs>${skipTests}</skipITs>
+    <skipUTs>${skipTests}</skipUTs>
   </properties>
 
   <dependencies>
@@ -153,7 +158,7 @@
           </reportSet>
         </reportSets>
       </plugin>
-      
+
       <!-- analyzes code with findbugs -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -184,11 +189,34 @@
           <target>${project.jdk.version}</target>
         </configuration>
       </plugin>
+      
+      <!-- Separate Unit tests and Integration tests https://gist.github.com/delor/5916802 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.16</version>
+        <configuration>
+          <skipTests>${skipUTs}</skipTests>
+        </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>2.16</version>
+        <configuration>
+          <skipTests>${skipTests}</skipTests>
+          <skipITs>${skipITs}</skipITs>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>

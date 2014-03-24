@@ -13,7 +13,7 @@ public interface Storage {
      * 
      * @param key
      * @param value
-     * @return success in operation
+     * @return true if added, false otherwise
      */
     boolean push(String key, String value);
 
@@ -21,7 +21,7 @@ public interface Storage {
      * Remove key-val from stroge.
      * 
      * @param key
-     * @return
+     * @return true if deleted, false otherwise
      */
     boolean delete(String key);
 

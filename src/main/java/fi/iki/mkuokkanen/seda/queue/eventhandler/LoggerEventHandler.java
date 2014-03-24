@@ -24,7 +24,7 @@ public class LoggerEventHandler implements EventHandler<Message> {
 
     @Override
     public void onEvent(Message event, long sequence, boolean endOfBatch) throws Exception {
-        logger.info("Name: {}, seq: {}, event: {}", name, sequence, event);
+        logger.debug("Name: {}, seq: {}, event: {}", name, sequence, event);
     }
 
 }
