@@ -48,7 +48,7 @@ $("#btn-connect").click(function() {
 	ws = new WebSocket(serverIp);
 
 	ws.onopen = function() {
-		document.getElementById('wsconnect').innerHTML = "connected";
+		document.getElementById('wsconnect').innerHTML = "true";
 		$('#logincontainer').hide();
 		$('#datacontainer').show();
 	};
