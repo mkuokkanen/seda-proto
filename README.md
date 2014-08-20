@@ -6,6 +6,26 @@ It combines few technologies I have researched recently,
 like html5, websockets, Disruptor, and so on. 
 Purpose is to help me remember later what I have learned.
 
+## Typical data flow
+
+
+```
+Html Client sends message (JSON)        All Clients receive message
+  |                                         ^
+  v                                         |
+Data transfer (WebSocket)               Data transfer
+  |                                         ^
+  v                                         |
+Server Api layer (Jetty)                Server Api layer
+  |                                         ^
+  v                                         |
+Message translation                     Message translation
+  |                                         ^
+  v                                         |
+Queue in (Disruptor) -> Data storage -> Queue out
+
+```
+
 ## Running instructions
 
 ### Program
@@ -66,17 +86,18 @@ which is nice.
 #### Server
 
 Standalone *Java* code with selected libraries, build with *Maven* 
-* [Embedded Jetty 9](http://www.eclipse.org/jetty/) for WebSocket implementation
- * Alt?: Even Jetty implementation seems to be still work in progress, with major rewrites even inside version 9.
-* [Disruptor 3](http://lmax-exchange.github.io/disruptor/) for implementing SEDA (queues, stages)
- * Alt: Maybe multiple java.util.concurrent.ArrayBlockingQueue objects or some other Java List objects with self-managed threads.
- * [The LMAX Architecture - Martin Fowler](http://martinfowler.com/articles/lmax.html)
-* [json-simple](http://code.google.com/p/json-simple/) for handling json
- * [comparison blog post](http://www.rojotek.com/blog/2009/05/07/a-review-of-5-java-json-libraries/)
+* [Guice](https://github.com/google/guice) for wiring different components together.
+ * Alt: Wire components by hand? Small simple application, could be done, but using DI is more fun.
+ * Alt: Spring? No need for 90% of its features. DI part not as solid as Guice. 
+ * Alt: CDI? Not really a good solution outside application servers.
+* [Embedded Jetty 9](http://www.eclipse.org/jetty/) for WebSocket implementation. Seems to be still somewhat work in progress, with major rewrites even inside version 9.
+ * Alt: Java EE 7 compatible application server and its WebSocket support via JSR 356? Don't want to go that way.
+* [Disruptor 3](http://lmax-exchange.github.io/disruptor/) for implementing SEDA (queues, stages). Background info in article [The LMAX Architecture - Martin Fowler](http://martinfowler.com/articles/lmax.html)
+ * Alt: Multiple ArrayBlockingQueue objects or other Java List objects with self-managed threads. Disruptor has better feeling.
+* [json-simple](http://code.google.com/p/json-simple/) for handling json. Seems to work. JSON Java side has multiple different solutions, hard to know which would be right.
+ * Alt: [gson](https://code.google.com/p/google-gson/) might be interesting
  * Alt: [minimal-json](http://eclipsesource.com/blogs/2013/04/18/minimal-json-parser-for-java/) seems nice, but no maven artifact to be found. [https://github.com/ralfstx/minimal-json](blog)
-* [Javolution](http://javolution.org) for storing data in preallocated ByteBuffers to minimize GC
- * idea is from this [ticketing demo](https://github.com/mikeb01/ticketing)
+* [Javolution](http://javolution.org) for storing queue data in preallocated ByteBuffers to minimize GC. Idea is from this [ticketing demo](https://github.com/mikeb01/ticketing)
  * Alt: Store data outside heap [blog](http://vanillajava.blogspot.fi/2013/07/openhft-java-lang-project.html)
-* [Logback](http://logback.qos.ch) and [SLF4j](http://www.slf4j.org) for logging purposes. 
- * Alt: Log4j 1.x, old school by now
- * Alt: [Log4j 2.x](http://logging.apache.org/log4j/2.x/), new interesting stuff, but too little too late? But! "Asynchronous Loggers based on the LMAX Disruptor library".
+* [Logback](http://logback.qos.ch) and [SLF4j](http://www.slf4j.org) for logging purposes. Seems to be the right way ATM.
+ * Alt: [Log4j 2.x](http://logging.apache.org/log4j/2.x/), new interesting stuff, but too little too late? But! "Asynchronous Loggers based on the LMAX Disruptor library". :)
