@@ -24,8 +24,8 @@
     <!-- deps -->
     <jetty.version>9.0.4.v20130625</jetty.version>
     <disruptor.version>3.1.1</disruptor.version>
-    <slf4j.version>1.7.5</slf4j.version>
-    <logback.version>1.0.13</logback.version>
+    <slf4j.version>1.7.7</slf4j.version>
+    <logback.version>1.1.2</logback.version>
     <javolution.version>5.5.1</javolution.version>
     <guice.version>3.0</guice.version>
     <guava.version>14.0.1</guava.version>
