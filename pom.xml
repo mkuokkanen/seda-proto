@@ -12,7 +12,7 @@
   <url>https://github.com/mkuokkanen/sedademo</url>
 
   <prerequisites>
-    <maven>3.0</maven>
+    <maven>3.2.3</maven>
   </prerequisites>
 
   <properties>
@@ -120,14 +120,14 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
-        <version>2.3</version>
+        <version>2.4</version>
       </plugin>
 
       <!-- analyzes code with pmd -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.0.1</version>
+        <version>3.2</version>
         <configuration>
           <aggregate>true</aggregate>
           <includeTests>true</includeTests>
@@ -144,7 +144,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.11</version>
+        <version>2.12.1</version>
         <configuration>
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
           <indentSize>2</indentSize>
@@ -163,7 +163,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>2.5.3</version>
+        <version>3.0.0</version>
       </plugin>
     </plugins>
   </reporting>
@@ -225,7 +225,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>3.3</version>
+        <version>3.4</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
