@@ -1,20 +1,25 @@
 package fi.iki.mkuokkanen.seda.queue;
 
-import javax.inject.Singleton;
-
 import com.google.inject.AbstractModule;
+import fi.iki.mkuokkanen.seda.queue.translator.JsonToMessageTranslator;
+import fi.iki.mkuokkanen.seda.queue.translator.StoreToMessageTranslator;
+
+import javax.inject.Singleton;
 
 /**
  * Guice Module for Queues
- * 
+ *
  * @author mkuokkanen
  */
 public class QueueModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(Queue.class).annotatedWith(QueueIn.class).to(DisruptorIn.class).in(Singleton.class);
-        bind(Queue.class).annotatedWith(QueueOut.class).to(DisruptorOut.class).in(Singleton.class);
+        bind(JsonToMessageTranslator.class).in(Singleton.class);
+        bind(StoreToMessageTranslator.class).in(Singleton.class);
+
+        bind(QueueIn.class).to(QueueInImpl.class).in(Singleton.class);
+        bind(QueueOut.class).to(QueueOutImpl.class).in(Singleton.class);
     }
 
 }

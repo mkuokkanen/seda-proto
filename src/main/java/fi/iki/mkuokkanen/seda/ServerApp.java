@@ -35,8 +35,8 @@ public class ServerApp implements Service {
     @Inject
     public ServerApp(
             SedaServer api,
-            @QueueIn Queue inQueue,
-            @QueueOut Queue outQueue,
+            QueueIn inQueue,
+            QueueOut outQueue,
             EventScheduler scheduler) {
 
         this.api = api;

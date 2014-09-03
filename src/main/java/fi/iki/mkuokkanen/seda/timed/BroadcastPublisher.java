@@ -1,14 +1,11 @@
 package fi.iki.mkuokkanen.seda.timed;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import org.json.simple.parser.ParseException;
+import fi.iki.mkuokkanen.seda.api.json.JsonCreator;
+import fi.iki.mkuokkanen.seda.queue.QueueIn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fi.iki.mkuokkanen.seda.api.json.JsonCreator;
-import fi.iki.mkuokkanen.seda.queue.Queue;
-import fi.iki.mkuokkanen.seda.queue.translator.JsonToMessageTranslator;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author mkuokkanen
@@ -17,14 +14,9 @@ public class BroadcastPublisher implements Runnable {
 
     private static Logger logger = LoggerFactory.getLogger(BroadcastPublisher.class);
 
-    private final Queue queue;
+    private final QueueIn queue;
 
-    /**
-     * Constructor
-     * 
-     * @param queue
-     */
-    public BroadcastPublisher(Queue queue) {
+    public BroadcastPublisher(QueueIn queue) {
         this.queue = checkNotNull(queue);
     }
 
@@ -41,12 +33,6 @@ public class BroadcastPublisher implements Runnable {
         logger.debug("Pushing timed broadcast message");
 
         String str = JsonCreator.createBroadcastMsg();
-
-        try {
-            JsonToMessageTranslator t = new JsonToMessageTranslator(str);
-            queue.getRingBuffer().publishEvent(t);
-        } catch (ParseException e) {
-            logger.error("error while creating broadcast message", e);
-        }
+        queue.writeJsonToQueue(str);
     }
 }

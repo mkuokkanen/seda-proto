@@ -1,41 +1,44 @@
 package fi.iki.mkuokkanen.seda.queue;
 
-import javax.inject.Inject;
-
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.dsl.Disruptor;
-
 import fi.iki.mkuokkanen.seda.api.session.SessionManager;
 import fi.iki.mkuokkanen.seda.queue.event.Message;
 import fi.iki.mkuokkanen.seda.queue.eventhandler.LoggerEventHandler;
 import fi.iki.mkuokkanen.seda.queue.eventhandler.OpOutEventHandler;
+import fi.iki.mkuokkanen.seda.queue.translator.StoreToMessageTranslator;
+
+import javax.inject.Inject;
+import java.util.Map;
 
 /**
  * Outbound queue, passes messages from store to clients.
- * 
+ *
  * @author mkuokkanen
  */
-class DisruptorOut extends AbstractDisruptor {
+class QueueOutImpl extends AbstractDisruptor implements QueueOut {
 
     // private static Logger logger =
     // LoggerFactory.getLogger(DisruptorOut.class);
+
     private final SessionManager sessionManager;
+    private final StoreToMessageTranslator translator;
 
     /**
      * Constructor
-     * 
+     *
      * @param sessionManager
      */
     @Inject
-    DisruptorOut(SessionManager sessionManager) {
+    QueueOutImpl(SessionManager sessionManager, StoreToMessageTranslator translator) {
         this.sessionManager = sessionManager;
+        this.translator = translator;
     }
 
     /**
      * Creates eventhandlers and sets their processing order.
-     * 
+     *
      * @param disruptor
-     * @param sessionManager
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -46,5 +49,10 @@ class DisruptorOut extends AbstractDisruptor {
         disruptor
                 .handleEventsWith(log)
                 .handleEventsWith(opOut);
+    }
+
+    @Override
+    public void writeBroadcastToQueue(Map<String, String> data) {
+        getRingBuffer().publishEvent(translator, data);
     }
 }

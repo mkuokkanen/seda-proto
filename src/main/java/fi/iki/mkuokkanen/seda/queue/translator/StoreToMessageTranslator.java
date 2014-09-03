@@ -1,21 +1,17 @@
 package fi.iki.mkuokkanen.seda.queue.translator;
 
-import java.util.Map;
-
 import com.lmax.disruptor.EventTranslatorOneArg;
-
 import fi.iki.mkuokkanen.seda.queue.event.Message;
 import fi.iki.mkuokkanen.seda.queue.event.MessageType;
 
+import java.util.Map;
+
 /**
  * Translates given Map data to Message elements.
- * 
+ *
  * @author mkuokkanen
  */
 public class StoreToMessageTranslator implements EventTranslatorOneArg<Message, Map<String, String>> {
-
-    public StoreToMessageTranslator() {
-    }
 
     @Override
     public void translateTo(Message event, long sequence, Map<String, String> data) {

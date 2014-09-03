@@ -1,39 +1,34 @@
 package fi.iki.mkuokkanen.seda.timed;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-
+import fi.iki.mkuokkanen.seda.queue.QueueIn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fi.iki.mkuokkanen.seda.queue.Queue;
-import fi.iki.mkuokkanen.seda.queue.QueueIn;
+import javax.inject.Inject;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Schedules events. At this time only broadcast events.
- * 
+ *
  * @author mkuokkanen
  */
 class EventSchedulerImpl implements EventScheduler {
 
-    private static Logger logger = LoggerFactory.getLogger(EventSchedulerImpl.class);
-
     private static final int POOL_SIZE = 5;
-
+    private static Logger logger = LoggerFactory.getLogger(EventSchedulerImpl.class);
     private final ScheduledThreadPoolExecutor stpe;
-    private final Queue queue;
+    private final QueueIn queue;
 
     /**
      * Default constructor
-     * 
-     * @param ringBuffer
+     *
+     * @param queue
      */
     @Inject
-    public EventSchedulerImpl(@QueueIn Queue queue) {
+    public EventSchedulerImpl(QueueIn queue) {
         this.queue = checkNotNull(queue);
         this.stpe = new ScheduledThreadPoolExecutor(POOL_SIZE);
     }

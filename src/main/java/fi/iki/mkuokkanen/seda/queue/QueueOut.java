@@ -1,21 +1,14 @@
 package fi.iki.mkuokkanen.seda.queue;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import java.util.Map;
 
-import com.google.inject.BindingAnnotation;
+public interface QueueOut extends Queue {
 
-/**
- * Identifies Websocket Context
- * 
- * @author mkuokkanen
- */
-@BindingAnnotation
-@Target({ FIELD, PARAMETER, METHOD })
-@Retention(RUNTIME)
-public @interface QueueOut {
+    /**
+     * Write Broadcast message to Queue.
+     * 
+     * @param data
+     */
+    void writeBroadcastToQueue(Map<String, String> data);
+
 }

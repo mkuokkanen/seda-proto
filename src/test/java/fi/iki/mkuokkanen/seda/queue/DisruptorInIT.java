@@ -34,7 +34,8 @@ public class DisruptorInIT {
         deleteOk = true;
 
         Storage keyStore = new MockStorage();
-        DisruptorIn in = new DisruptorIn(keyStore);
+        JsonToMessageTranslator translator = new JsonToMessageTranslator();
+        QueueInImpl in = new QueueInImpl(keyStore, translator);
         in.start();
 
         for (int i = 0; i < 5000; i++) {
@@ -56,22 +57,19 @@ public class DisruptorInIT {
         in.stop();
     }
 
-    private void doPush(DisruptorIn in, int i) throws ParseException {
+    private void doPush(QueueInImpl in, int i) throws ParseException {
         String str = JsonCreator.createPushMsg(Integer.valueOf(i).toString(), Integer.valueOf(i).toString());
-        JsonToMessageTranslator t = new JsonToMessageTranslator(str);
-        in.getRingBuffer().publishEvent(t);
+        in.writeJsonToQueue(str);
     }
 
-    private void doDel(DisruptorIn in, int i) throws ParseException {
+    private void doDel(QueueInImpl in, int i) throws ParseException {
         String str = JsonCreator.createDeleteMsg(Integer.valueOf(i).toString());
-        JsonToMessageTranslator t = new JsonToMessageTranslator(str);
-        in.getRingBuffer().publishEvent(t);
+        in.writeJsonToQueue(str);
     }
 
-    private void doBroadcast(DisruptorIn in) throws ParseException {
+    private void doBroadcast(QueueInImpl in) throws ParseException {
         String str = JsonCreator.createBroadcastMsg();
-        JsonToMessageTranslator t = new JsonToMessageTranslator(str);
-        in.getRingBuffer().publishEvent(t);
+        in.writeJsonToQueue(str);
     }
 
     class MockStorage implements Storage {
@@ -98,9 +96,8 @@ public class DisruptorInIT {
         }
 
         @Override
-        public boolean broadcast() {
+        public void broadcast() {
             broadcastCalledCounter++;
-            return true;
         }
     }
 }

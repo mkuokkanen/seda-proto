@@ -16,7 +16,7 @@ public class Message extends Struct {
 
     public final Signed64 id = new Signed64();
 
-    public final Enum32<MessageType> type = new Enum32<MessageType>(MessageType.values());
+    public final Enum32<MessageType> type = new Enum32<>(MessageType.values());
 
     public final RequestPushStruct asPush = inner(new RequestPushStruct());
     public final RequestDeleteStruct asDelete = inner(new RequestDeleteStruct());

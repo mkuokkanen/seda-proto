@@ -5,13 +5,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import fi.iki.mkuokkanen.seda.queue.QueueIn;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHandler;
 
 import com.google.inject.Provider;
 
-import fi.iki.mkuokkanen.seda.api.QueueWriter;
 import fi.iki.mkuokkanen.seda.api.session.SessionManager;
 
 /**
@@ -22,23 +22,23 @@ import fi.iki.mkuokkanen.seda.api.session.SessionManager;
 public class WebsocketContextProvider implements Provider<ContextHandler> {
 
     private final SessionManager sessionManager;
-    private final QueueWriter queueWriter;
     private final String contextPath;
+    private final QueueIn queue;
 
     /**
      * Default constructor.
      * 
      * @param sessionManager
-     * @param queueWriter
+     * @param queue
      * @param contextPath
      */
     @Inject
     public WebsocketContextProvider(
             SessionManager sessionManager,
-            QueueWriter queueWriter,
+            QueueIn queue,
             @Named("api.websocket.contextpath") String contextPath) {
         this.sessionManager = checkNotNull(sessionManager);
-        this.queueWriter = checkNotNull(queueWriter);
+        this.queue = checkNotNull(queue);
         this.contextPath = checkNotNull(contextPath);
     }
 
@@ -63,7 +63,7 @@ public class WebsocketContextProvider implements Provider<ContextHandler> {
 
         // kludge
         WsSocket.setSessionManager(sessionManager);
-        WsSocket.setDisruptorWriter(queueWriter);
+        WsSocket.setDisruptorWriter(queue);
 
         return wsHandler;
     }

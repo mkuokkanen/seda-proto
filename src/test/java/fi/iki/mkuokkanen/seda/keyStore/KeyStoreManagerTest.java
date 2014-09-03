@@ -1,19 +1,31 @@
 package fi.iki.mkuokkanen.seda.keyStore;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import fi.iki.mkuokkanen.seda.queue.QueueOut;
+import org.junit.Test;
 
 import java.util.Map;
 
-import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class KeyStoreManagerTest {
 
     @Test
     public void push() {
-        Storage ks = new KeyStoreManager(new OutEventWriter() {
+        Storage ks = new StorageImpl(new QueueOut() {
             @Override
-            public void createFullRefreshEvent(Map<String, String> store) {
+            public void writeBroadcastToQueue(Map<String, String> data) {
+                // ignore
+            }
+
+            @Override
+            public void start() {
+                // ignore
+            }
+
+            @Override
+            public void stop() {
+                // ignore
             }
         });
 

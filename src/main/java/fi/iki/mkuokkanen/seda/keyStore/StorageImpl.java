@@ -1,44 +1,38 @@
 package fi.iki.mkuokkanen.seda.keyStore;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.inject.Inject;
-
+import fi.iki.mkuokkanen.seda.queue.QueueOut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Simple Business Logic module in this app
- * 
+ *
  * @author mkuokkanen
  */
-class KeyStoreManager implements Storage {
+class StorageImpl implements Storage {
 
-    private static Logger logger = LoggerFactory.getLogger(KeyStoreManager.class);
     private static final int MAX_SIZE = 100;
-
+    private static Logger logger = LoggerFactory.getLogger(StorageImpl.class);
     /**
      * Internal data structure.
      */
-    private Map<String, String> store = new HashMap<>(MAX_SIZE);
+    private final Map<String, String> store;
 
-    private OutEventWriter outEventGenerator;
+    private final QueueOut queue;
 
     /**
      * Default Constructor.
-     * 
-     * @param outEventGenerator
      */
     @Inject
-    public KeyStoreManager(OutEventWriter outEventGenerator) {
-        this.outEventGenerator = checkNotNull(outEventGenerator);
-
-        // if (this.outEventGenerator == null) {
-        // logger.warn("KeyStore does not have outEventGenerator, no messages will be pushed forward.");
-        // }
+    public StorageImpl(QueueOut queue) {
+        this.queue = checkNotNull(queue);
+        this.store = new HashMap<>(MAX_SIZE);
     }
 
     @Override
@@ -76,14 +70,8 @@ class KeyStoreManager implements Storage {
     }
 
     @Override
-    public boolean broadcast() {
-        if (outEventGenerator == null) {
-            logger.warn("Ignoring broadcast request because no KeyStore does not know where to put it.");
-            return false;
-        }
-
-        outEventGenerator.createFullRefreshEvent(store);
-        return true;
+    public void broadcast() {
+        queue.writeBroadcastToQueue(store);
     }
 
 }

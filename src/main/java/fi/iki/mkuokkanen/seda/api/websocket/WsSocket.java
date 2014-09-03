@@ -3,12 +3,12 @@ package fi.iki.mkuokkanen.seda.api.websocket;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import fi.iki.mkuokkanen.seda.queue.QueueIn;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fi.iki.mkuokkanen.seda.api.QueueWriter;
 import fi.iki.mkuokkanen.seda.api.session.SessionManager;
 
 /**
@@ -28,7 +28,7 @@ public class WsSocket implements WebSocketListener {
     /**
      * Kind of kludge. Need this because we don't get to initialize this class.
      */
-    private static QueueWriter apiToDisruptor = null;
+    private static QueueIn queue = null;
 
     private Session session;
 
@@ -48,12 +48,12 @@ public class WsSocket implements WebSocketListener {
      * This shouldn't be needed, but currently we don't have access to
      * instantiation chain.
      * 
-     * @param apiToDisruptor
+     * @param queue
      */
-    public static void setDisruptorWriter(QueueWriter apiToDisruptor) {
-        checkState(WsSocket.apiToDisruptor == null, "Don't call this twice!");
-        checkNotNull(apiToDisruptor);
-        WsSocket.apiToDisruptor = apiToDisruptor;
+    public static void setDisruptorWriter(QueueIn queue) {
+        checkState(WsSocket.queue == null, "Don't call this twice!");
+        checkNotNull(queue);
+        WsSocket.queue = queue;
     }
 
     @Override
@@ -73,9 +73,9 @@ public class WsSocket implements WebSocketListener {
 
     @Override
     public void onWebSocketText(String message) {
-        checkState(apiToDisruptor != null);
+        checkState(queue != null);
         logger.info("Server got msg: {}", message);
-        apiToDisruptor.passMessage(message);
+        queue.writeJsonToQueue(message);
     }
 
     @Override
