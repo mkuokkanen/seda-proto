@@ -25,26 +25,26 @@ $(window).load(function() {
 	if ("WebSocket" in window) {
 		document.getElementById('wssupport').innerHTML = "true";
 	}
-})
+});
 
 /*
  * Setup result data after startup
  */
 $(window).load(function() {
-	var msg = '{"keyvalues": []}'
+	var msg = '{"keyvalues": []}';
 	parseJsonToTable(msg);
-})
+});
 
 /*
  * WS instance variable
  */
-var ws
+var ws;
 
 /*
  * Btn func connect
  */
 $("#btn-connect").click(function() {
-	var serverIp = document.getElementById('input-serverIp-id').value
+	var serverIp = document.getElementById('input-serverIp-id').value;
 	ws = new WebSocket(serverIp);
 
 	ws.onopen = function() {

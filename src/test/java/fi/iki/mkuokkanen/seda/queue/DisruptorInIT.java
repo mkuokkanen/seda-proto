@@ -102,5 +102,5 @@ public class DisruptorInIT {
             broadcastCalledCounter++;
             return true;
         }
-    };
+    }
 }
