@@ -19,9 +19,6 @@ Data transfer (WebSocket)               Data transfer
 Server Api layer (Jetty)                Server Api layer
   |                                         ^
   v                                         |
-Message translation                     Message translation
-  |                                         ^
-  v                                         |
 Queue in (Disruptor) -> Data storage -> Queue out
 
 ```
