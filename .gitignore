@@ -25,5 +25,8 @@
 .settings/
 bin/
 
+# intellij idea specific
+*.iml
+
 # maven specific
 target/
