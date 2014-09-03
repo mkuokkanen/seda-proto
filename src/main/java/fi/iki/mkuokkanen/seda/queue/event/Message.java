@@ -1,16 +1,15 @@
 package fi.iki.mkuokkanen.seda.queue.event;
 
-import java.nio.ByteBuffer;
-
+import com.google.common.base.MoreObjects;
+import com.lmax.disruptor.EventFactory;
 import javolution.io.Struct;
 
-import com.google.common.base.Objects;
-import com.lmax.disruptor.EventFactory;
+import java.nio.ByteBuffer;
 
 /**
  * Descibes one message, that is stored in disruptor queueu. Provides
  * preallocated memory.
- * 
+ *
  * @author mkuokkanen
  */
 public class Message extends Struct {
@@ -34,7 +33,7 @@ public class Message extends Struct {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this.getClass())
+        return MoreObjects.toStringHelper(this.getClass())
                 .add("id", id)
                 .add("type", type)
                 .toString();
