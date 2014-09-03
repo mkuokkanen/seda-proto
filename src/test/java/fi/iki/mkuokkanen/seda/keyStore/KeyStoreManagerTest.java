@@ -14,7 +14,6 @@ public class KeyStoreManagerTest {
         Storage ks = new KeyStoreManager(new OutEventWriter() {
             @Override
             public void createFullRefreshEvent(Map<String, String> store) {
-                return;
             }
         });
 

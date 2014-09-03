@@ -37,11 +37,10 @@ public abstract class AbstractDisruptor implements Queue {
      * @return
      */
     protected Disruptor<Message> createDisruptorWizard() {
-        Disruptor<Message> disruptor = new Disruptor<Message>(
+        return new Disruptor<Message>(
                 Message.FACTORY,
                 128,
                 Executors.newCachedThreadPool());
-        return disruptor;
     }
 
     @Override
