@@ -1,7 +1,9 @@
 ## Purpose
 
 Simple client-server application prototype. 
-Build with asynchronous messaging and [staged event-driven architecture (SEDA)](http://en.wikipedia.org/wiki/Staged_event-driven_architecture) principles.
+Build with asynchronous messaging, 
+serialized message processing 
+and [staged event-driven architecture (SEDA)](http://en.wikipedia.org/wiki/Staged_event-driven_architecture) principles.
 It combines few technologies I have researched recently,
 like html5, websockets, Disruptor, and so on. 
 Purpose is to help me remember later what I have learned.
@@ -84,7 +86,11 @@ which is nice.
  
 #### Server
 
-Standalone *Java* code with selected libraries, build with *Maven* 
+Standalone *Java* Application with selected libraries
+
+[Maven](http://maven.apache.org/) for building the software
+* Alt: Ant, Ivy,.. I have no interest in learning to use these
+* Alt: Gradle, ... maybe some other day 
 
 [Guice](https://github.com/google/guice) for wiring different components together.
 * Alt: Wire components by hand? Small simple application, could be done, but using DI is more fun.
@@ -93,11 +99,13 @@ Standalone *Java* code with selected libraries, build with *Maven*
 
 [Embedded Jetty 9](http://www.eclipse.org/jetty/) for WebSocket implementation. Seems to be still somewhat work in progress, with major rewrites even inside version 9.
 * Alt: Java EE 7 compatible application server and its WebSocket support via JSR 356? Don't want to go that way.
+* Alt: Spring Boot. Might work, but I wan't select components myself.
 
 [Disruptor 3](http://lmax-exchange.github.io/disruptor/) for implementing SEDA (queues, stages). Background info in article [The LMAX Architecture - Martin Fowler](http://martinfowler.com/articles/lmax.html)
  * Alt: Multiple ArrayBlockingQueue objects or other Java List objects with self-managed threads. Disruptor has better feeling.
 
 [json-simple](http://code.google.com/p/json-simple/) for handling json. Seems to work. JSON Java side has multiple different solutions, hard to know which would be right.
+* Alt: [jackson](https://github.com/FasterXML/jackson) seems to be one stop solution for all your needs. goes to "is this all required?" category
 * Alt: [gson](https://code.google.com/p/google-gson/) might be interesting
 * Alt: [minimal-json](http://eclipsesource.com/blogs/2013/04/18/minimal-json-parser-for-java/) seems nice, but no maven artifact to be found. [https://github.com/ralfstx/minimal-json](blog)
 
