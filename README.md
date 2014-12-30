@@ -74,27 +74,35 @@ which is nice.
 
 *HTML5* and *Javascript* with some selected libraries. Easy and fast to build PoC. 
 * Alt: Java Swing or JavaFX Client? Binary blobs are so old school. OTOH, would make other protocols and message formats possible.
-* [JQuery](http://jquery.com) for some random Javascript tasks.
- * Alt: AngularJS, ... no need in simple project.
- * Alt: Google Dart? Interesting, but not relevant.
-* [Twitter Bootstrap 2](http://getbootstrap.com/2.3.2/) for UI elements
- * Alt: Bootstrap 3? Might upgrade to it later
+
+[JQuery](http://jquery.com) for some random Javascript tasks.
+* Alt: AngularJS, ... no need in simple project.
+* Alt: Google Dart? Interesting, but not relevant.
+
+[Twitter Bootstrap 2](http://getbootstrap.com/2.3.2/) for UI elements
+* Alt: Bootstrap 3? Might upgrade to it later
  
 #### Server
 
 Standalone *Java* code with selected libraries, build with *Maven* 
-* [Guice](https://github.com/google/guice) for wiring different components together.
- * Alt: Wire components by hand? Small simple application, could be done, but using DI is more fun.
- * Alt: Spring? No need for 90% of its features. DI part not as solid as Guice. 
- * Alt: CDI? Not really a good solution outside application servers.
-* [Embedded Jetty 9](http://www.eclipse.org/jetty/) for WebSocket implementation. Seems to be still somewhat work in progress, with major rewrites even inside version 9.
- * Alt: Java EE 7 compatible application server and its WebSocket support via JSR 356? Don't want to go that way.
-* [Disruptor 3](http://lmax-exchange.github.io/disruptor/) for implementing SEDA (queues, stages). Background info in article [The LMAX Architecture - Martin Fowler](http://martinfowler.com/articles/lmax.html)
+
+[Guice](https://github.com/google/guice) for wiring different components together.
+* Alt: Wire components by hand? Small simple application, could be done, but using DI is more fun.
+* Alt: Spring? No need for 90% of its features. DI part not as solid as Guice. 
+* Alt: CDI? Not really a good solution outside application servers.
+
+[Embedded Jetty 9](http://www.eclipse.org/jetty/) for WebSocket implementation. Seems to be still somewhat work in progress, with major rewrites even inside version 9.
+* Alt: Java EE 7 compatible application server and its WebSocket support via JSR 356? Don't want to go that way.
+
+[Disruptor 3](http://lmax-exchange.github.io/disruptor/) for implementing SEDA (queues, stages). Background info in article [The LMAX Architecture - Martin Fowler](http://martinfowler.com/articles/lmax.html)
  * Alt: Multiple ArrayBlockingQueue objects or other Java List objects with self-managed threads. Disruptor has better feeling.
-* [json-simple](http://code.google.com/p/json-simple/) for handling json. Seems to work. JSON Java side has multiple different solutions, hard to know which would be right.
- * Alt: [gson](https://code.google.com/p/google-gson/) might be interesting
- * Alt: [minimal-json](http://eclipsesource.com/blogs/2013/04/18/minimal-json-parser-for-java/) seems nice, but no maven artifact to be found. [https://github.com/ralfstx/minimal-json](blog)
-* [Javolution](http://javolution.org) for storing queue data in preallocated ByteBuffers to minimize GC. Idea is from this [ticketing demo](https://github.com/mikeb01/ticketing)
- * Alt: Store data outside heap [blog](http://vanillajava.blogspot.fi/2013/07/openhft-java-lang-project.html)
-* [Logback](http://logback.qos.ch) and [SLF4j](http://www.slf4j.org) for logging purposes. Seems to be the right way ATM.
- * Alt: [Log4j 2.x](http://logging.apache.org/log4j/2.x/), new interesting stuff, but too little too late? But! "Asynchronous Loggers based on the LMAX Disruptor library". :)
+
+[json-simple](http://code.google.com/p/json-simple/) for handling json. Seems to work. JSON Java side has multiple different solutions, hard to know which would be right.
+* Alt: [gson](https://code.google.com/p/google-gson/) might be interesting
+* Alt: [minimal-json](http://eclipsesource.com/blogs/2013/04/18/minimal-json-parser-for-java/) seems nice, but no maven artifact to be found. [https://github.com/ralfstx/minimal-json](blog)
+
+[Javolution](http://javolution.org) for storing queue data in preallocated ByteBuffers to minimize GC. Idea is from this [ticketing demo](https://github.com/mikeb01/ticketing)
+* Alt: Store data outside heap [blog](http://vanillajava.blogspot.fi/2013/07/openhft-java-lang-project.html)
+
+[Logback](http://logback.qos.ch) and [SLF4j](http://www.slf4j.org) for logging purposes. Seems to be the right way ATM.
+* Alt: [Log4j 2.x](http://logging.apache.org/log4j/2.x/), new interesting stuff, but too little too late? But! "Asynchronous Loggers based on the LMAX Disruptor library". :)
