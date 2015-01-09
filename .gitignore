@@ -27,6 +27,7 @@ bin/
 
 # intellij idea specific
 *.iml
+.idea
 
 # maven specific
 target/
