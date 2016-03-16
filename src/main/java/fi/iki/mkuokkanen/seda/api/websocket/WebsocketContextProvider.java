@@ -44,19 +44,29 @@ public class WebsocketContextProvider implements Provider<ContextHandler> {
 
     @Override
     public ContextHandler get() {
-        ServletHandler wsHandler = createServlet();
+        // kludge - init WsSocket via static fields because no access to constructor.
+        WsSocket.setSessionManager(sessionManager);
+        WsSocket.setDisruptorWriter(queue);
 
-        ContextHandler wsContext = new ServletContextHandler();
+        // Rest should be somewhat understandable
+        ServletContextHandler wsContext = new ServletContextHandler();
         wsContext.setContextPath(contextPath);
-        wsContext.setHandler(wsHandler);
+        wsContext.addServlet(WsServlet.class, "/*");
         return wsContext;
     }
 
-    /**
+    /*
      * Some Jetty Magic. Attach Servlet to Servlet Handler.
-     * 
+     *
+     * 15.3.2016:
+     * This stopped working somewhere between Jetty 9.0 and 9.3
+     * It seems ServletHandler should not be managed manually?
+     * Instead Servlet should be injected straight to context?
+     * http://stackoverflow.com/questions/26640098/embedded-jetty-servlet-not-initialized
+     *
      * @return
      */
+    /*
     private ServletHandler createServlet() {
         ServletHandler wsHandler = new ServletHandler();
         wsHandler.addServletWithMapping(WsServlet.class, "/*");
@@ -67,5 +77,5 @@ public class WebsocketContextProvider implements Provider<ContextHandler> {
 
         return wsHandler;
     }
-
+*/
 }
