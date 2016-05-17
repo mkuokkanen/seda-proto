@@ -52,7 +52,7 @@ Queue in (Disruptor) -> Data storage -> Queue out
 
 ### Technology selections
 
-#### Protocol
+#### Public API
 
 *WebSockets* as protocol between client and server. 
 It makes asyncronous message delivery possible
@@ -63,16 +63,13 @@ which is nice.
  * Alt: [RabbitMQ](http://www.rabbitmq.com)? Hard to make work in web browsers, needs dedicated server app.
  * Alt: [SPDY](http://en.wikipedia.org/wiki/SPDY)? Not enough knowledge to say anything.
 
-
-#### Message format
-
 *JSON* as message format between client and server. Works well enough, especially with web browsers.
 * Alt: XML? Could work. Bigger msg size than JSON and unwelcome complexity with namespaces etc.
 * Alt: [Google Protobuf](http://code.google.com/p/protobuf/)? Interesting, but hard to make work in web browsers.
 * Alt: [Apache Thrift](http://thrift.apache.org/tutorial/js/)? Might work, but wants to mess with protocol layer too, documentation lacking.
 * Alt: [Apache avro](http://avro.apache.org)? Does anybody use this?
 
-#### Client
+#### Client Application
 
 *HTML5* and *Javascript* with some selected libraries. Easy and fast to build PoC. 
 * Alt: Java Swing or JavaFX Client? Binary blobs are so old school. OTOH, would make other protocols and message formats possible.
@@ -84,7 +81,7 @@ which is nice.
 [Twitter Bootstrap 2](http://getbootstrap.com/2.3.2/) for UI elements
 * Alt: Bootstrap 3? Might upgrade to it later
  
-#### Server
+#### Server Side Application
 
 Standalone *Java* Application with selected libraries
 
